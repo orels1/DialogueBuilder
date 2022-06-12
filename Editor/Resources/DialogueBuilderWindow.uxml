@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd"
+>
+    <engine:VisualElement name="dialogueBuilderWindow">
+        <engine:VisualElement name="toolbar">
+            <editor:Toolbar style="justify-content: space-between; flex-direction: row; flex-grow: 1; width: 100%;">
+                <engine:VisualElement style="flex-direction: row;">
+                    <editor:ToolbarButton text="Save Asset" name="saveDialogueGraph" />
+                    <editor:ToolbarButton text="Load Asset" name="loadDialogueGraph" />
+                    <editor:ToolbarButton text="Flatten Graph" name="flattenDialogueGraph" />
+                    <editor:ToolbarButton text="Load Sample Graph" name="loadSampleGraph" />
+                </engine:VisualElement>
+                <engine:VisualElement style="flex-direction: row;">
+                    <editor:ToolbarButton text="Debug Json" name="toggleJsonDebug" />
+                </engine:VisualElement>
+            </editor:Toolbar>
+        </engine:VisualElement>
+        <engine:VisualElement class="dialogueBuilder" name="dialogueBuilder" />
+        <engine:ScrollView name="jsonSidebar" class="jsonSidebar hidden">
+            <engine:TextField name="jsonContent" multiline="true" />
+        </engine:ScrollView>
+<!--        <engine:VisualElement name="infoBar">-->
+<!--            <engine:Label name="hintLabel" text="Information will appear here..." />-->
+<!--        </engine:VisualElement>-->
+    </engine:VisualElement>
+</engine:UXML>

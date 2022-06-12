@@ -1,0 +1,31 @@
+﻿.hidden {
+    display: none;
+}
+
+.visible {
+    display: flex;
+}
+
+#graphInspector {
+    padding-top: 5px;
+}
+
+#toggleJson {
+    margin: 15px 0;
+}
+
+.header {
+    margin: 10px 0 5px 0;
+    -unity-font-style: bold;
+}
+
+.small {
+    font-size: 9px;
+}
+
+.node {
+    background-color: rgba(0,0,0,0.2);
+    border-radius: 6px;
+    padding: 5px;
+    margin: 3px 0;
+}

@@ -1,0 +1,15 @@
+{
+    "name": "DialogueTreeRuntime",
+    "references": [
+        "GUID:a4aa4b9abbde6c23a922d091dc57bd73"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

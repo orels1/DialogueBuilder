@@ -1,0 +1,18 @@
+{
+    "name": "DialogueBuilder",
+    "references": [
+        "GUID:a4aa4b9abbde6c23a922d091dc57bd73",
+        "GUID:515e36c9cb523d945852db8fc1631ee2"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
