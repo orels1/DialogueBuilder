@@ -18,6 +18,7 @@ namespace ORL.DialogueBuilder.DataTypes
         public Vector2 position;
         public NodeType nodeType;
         public string nodeId;
+        public string characterName;
         public List<string> lines = new List<string>();
         public string inputGuid = Guid.NewGuid().ToString();
         public Dictionary<string, string> options = new Dictionary<string, string>();

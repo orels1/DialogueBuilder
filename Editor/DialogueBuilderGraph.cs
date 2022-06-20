@@ -7,6 +7,7 @@ namespace ORL.DialogueBuilder
     public class DialogueBuilderGraph : SerializedScriptableObject
     {
         public string[] nodeIds;
+        public string characterName;
 
         public string[][][] nodes;
         public int[][] edges;

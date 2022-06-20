@@ -74,14 +74,30 @@ namespace ORL.DialogueBuilder
                 try
                 {
                     var path = EditorUtility.SaveFilePanel("Select file location", "Assets", "DialogueTree", "asset");
-                    var newAsset = ScriptableObject.CreateInstance<DialogueBuilderGraph>();
-                    newAsset.edges = flattened.edges;
-                    newAsset.nodes = flattened.nodes;
-                    newAsset.nodeIds = flattened.nodes.Select(node => node[2][0]).ToArray();
-                    newAsset.serializedJson = json;
                     path = path.Replace(Application.dataPath, "");
                     path = "Assets" + path;
-                    AssetDatabase.CreateAsset(newAsset, path);
+                    // check if the asset is created first, update it if it exists
+                    var newAsset = AssetDatabase.LoadAssetAtPath<DialogueBuilderGraph>(path);
+                    var updating = true;
+                    if (newAsset == null)
+                    {
+                        newAsset = ScriptableObject.CreateInstance<DialogueBuilderGraph>();
+                        updating = false;
+                    }
+                    newAsset.edges = flattened.edges;
+                    newAsset.nodes = flattened.nodes;
+                    newAsset.characterName = flattened.characterName;
+                    newAsset.nodeIds = flattened.nodes.Select(node => node[2][0]).ToArray();
+                    newAsset.serializedJson = json;
+                    if (updating)
+                    {
+                        EditorUtility.SetDirty(newAsset);
+                        AssetDatabase.SaveAssets();
+                    }
+                    else
+                    {
+                        AssetDatabase.CreateAsset(newAsset, path);
+                    }
                     AssetDatabase.Refresh();
 
                 }

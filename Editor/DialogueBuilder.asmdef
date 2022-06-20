@@ -2,7 +2,10 @@
     "name": "DialogueBuilder",
     "references": [
         "GUID:a4aa4b9abbde6c23a922d091dc57bd73",
-        "GUID:515e36c9cb523d945852db8fc1631ee2"
+        "GUID:515e36c9cb523d945852db8fc1631ee2",
+        "GUID:99835874ee819da44948776e0df4ff1d",
+        "GUID:84265b35cca3905448e623ef3903f0ff",
+        "GUID:3c1bc1267eab5884ebe7f232c09ee0d9"
     ],
     "includePlatforms": [
         "Editor"

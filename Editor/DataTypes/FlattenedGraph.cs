@@ -2,6 +2,7 @@
 {
     public class FlattenedGraph
     {
+        public string characterName;
         public string[][][] nodes;
         public int[][] edges;
     }

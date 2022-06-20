@@ -1,7 +1,9 @@
 {
     "name": "DialogueTreeRuntime",
     "references": [
-        "GUID:a4aa4b9abbde6c23a922d091dc57bd73"
+        "GUID:99835874ee819da44948776e0df4ff1d",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:f70a94b0bedfa8ec50ed757f72032810"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

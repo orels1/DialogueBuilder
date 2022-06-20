@@ -1,15 +1,19 @@
-﻿using ORL.DialogueBuilderRuntime;
+﻿using ORL.DialogueBuilder.OdinSerializer;
+using ORL.DialogueBuilderRuntime;
+using UdonSharpEditor;
 using UnityEditor;
+using UnityEditor.VersionControl;
 using UnityEngine;
 
 namespace ORL.DialogueBuilder
 {
-    [CustomEditor(typeof(DialogueTreeProxy))]
+    [CustomEditor(typeof(DialogueTreeHandler))]
     public class DialogueTreeEditor: Editor
     {
         public override void OnInspectorGUI()
         {
-            var t = (DialogueTreeProxy) target;
+            if (UdonSharpGUI.DrawDefaultUdonSharpBehaviourHeader(target)) return;
+            var t = (DialogueTreeHandler) target;
 
             EditorGUI.BeginChangeCheck();
             using (new EditorGUILayout.VerticalScope())
@@ -31,10 +35,15 @@ namespace ORL.DialogueBuilder
                     treeProp.objectReferenceValue = tree;
                     if (treeProp.objectReferenceValue != null)
                     {
-                        t.nodes = (treeProp.objectReferenceValue as DialogueBuilderGraph).nodes;
-                        t.edges = (treeProp.objectReferenceValue as DialogueBuilderGraph).edges;
+                        var graph = treeProp.objectReferenceValue as DialogueBuilderGraph;
+                        t.nodes = graph.nodes;
+                        t.edges = graph.edges;
+                        t.characterName = graph.characterName;
                     }
                     treeProp.objectReferenceValue = tree;
+                    serializedObject.ApplyModifiedProperties();
+                    EditorUtility.SetDirty(t);
+                    return;
                 }
 
                 if (treeProp.objectReferenceValue == null)
@@ -42,6 +51,7 @@ namespace ORL.DialogueBuilder
                     EditorGUILayout.LabelField("No dialogue tree loaded", EditorStyles.helpBox);
                     if (EditorGUI.EndChangeCheck())
                     {
+                        EditorUtility.SetDirty(t);
                         serializedObject.ApplyModifiedProperties();
                     }
 
@@ -50,20 +60,39 @@ namespace ORL.DialogueBuilder
                 
                 EditorGUI.BeginChangeCheck();
 
-                if (t.nodes != (treeProp.objectReferenceValue as DialogueBuilderGraph).nodes ||
-                    t.edges != (treeProp.objectReferenceValue as DialogueBuilderGraph).edges)
-                {
-                    Undo.RecordObject(t, "Updated Nodes/Edges");
-                    t.nodes = (treeProp.objectReferenceValue as DialogueBuilderGraph).nodes;
-                    t.edges = (treeProp.objectReferenceValue as DialogueBuilderGraph).edges;
-                }
+                // if (t.nodes != (treeProp.objectReferenceValue as DialogueBuilderGraph).nodes ||
+                //     t.edges != (treeProp.objectReferenceValue as DialogueBuilderGraph).edges)
+                // {
+                //     Undo.RecordObject(t, "Updated Nodes/Edges");
+                //     t.nodes = (treeProp.objectReferenceValue as DialogueBuilderGraph).nodes;
+                //     t.edges = (treeProp.objectReferenceValue as DialogueBuilderGraph).edges;
+                //     t.characterName = (treeProp.objectReferenceValue as DialogueBuilderGraph).characterName;
+                //     EditorUtility.SetDirty(t);
+                // }
                 using (var v = new GUILayout.VerticalScope(EditorStyles.helpBox))
                 {
                     using (var d = new EditorGUI.DisabledScope(true))
                     {
+                        EditorGUILayout.TextField(new GUIContent("Character Name", "You can edit the character name on your tree's Entry node"), t.characterName);
                         EditorGUILayout.IntField("Nodes", t.nodes?.Length ?? 0);
                         EditorGUILayout.IntField("Edges", t.edges?.Length ?? 0);
                     }
+                }
+
+                if (GUILayout.Button("Reload Tree"))
+                {
+                    Undo.RecordObject(t, "Reloaded Tree");
+                    var graph = AssetDatabase.LoadAssetAtPath<DialogueBuilderGraph>(
+                        AssetDatabase.GetAssetPath(treeProp.objectReferenceValue));
+                    Debug.Log("Re-Saved tree");
+                    treeProp.objectReferenceValue = graph;
+                    t.nodes =  SerializationUtility.DeserializeValue<string[][][]>(SerializationUtility.SerializeValue(graph.nodes, DataFormat.JSON), DataFormat.JSON);
+
+                    t.edges = graph.edges;
+                    serializedObject.FindProperty("characterName").stringValue = graph.characterName;
+                    serializedObject.ApplyModifiedProperties();
+                    EditorUtility.SetDirty(t);
+                    return;
                 }
             }
 
@@ -128,6 +157,7 @@ namespace ORL.DialogueBuilder
                     ))
                 {
                     serializedObject.ApplyModifiedProperties();
+                    EditorUtility.SetDirty(t);
                     return;
                 }
                 
@@ -138,20 +168,51 @@ namespace ORL.DialogueBuilder
                     ))
                 {
                     serializedObject.ApplyModifiedProperties();
+                    EditorUtility.SetDirty(t);
                     return;
                 }
                 
                 if (DrawCombinedPropsList(
-                        serializedObject.FindProperty("onAnyExitEventTargets"),
-                        serializedObject.FindProperty("onAnyExitEventNames"), 
+                        serializedObject.FindProperty("onGraphExitEventTargets"),
+                        serializedObject.FindProperty("onGraphExitEventNames"), 
                         "On Graph Exit Events"
                     ))
                 {
                     serializedObject.ApplyModifiedProperties();
+                    EditorUtility.SetDirty(t);
                     return;
                 }
 
                 EditorGUI.indentLevel--;
+            }
+            
+            using (new GUILayout.VerticalScope())
+            {
+                using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
+                {
+                    EditorGUILayout.LabelField("UI Controller", EditorStyles.boldLabel);
+                }
+                EditorGUILayout.Space(2);
+
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("uiController"));
+            }
+            
+            if (EditorGUI.EndChangeCheck())
+            {
+                serializedObject.ApplyModifiedProperties();
+                EditorUtility.SetDirty(t);
+            }
+            
+            EditorGUILayout.Space(10);
+
+            using (new GUILayout.VerticalScope())
+            {
+                using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
+                {
+                    EditorGUILayout.LabelField("Internals", EditorStyles.boldLabel);
+                }
+                EditorGUILayout.Space(2);
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("debugMode"));
             }
             
             if (EditorGUI.EndChangeCheck())
@@ -200,7 +261,7 @@ namespace ORL.DialogueBuilder
                     {
                         if (GUILayout.Button(option))
                         {
-                            t.SelectOption(selection);
+                            t._SelectOption(selection);
                         }
 
                         selection++;

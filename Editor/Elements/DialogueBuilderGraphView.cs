@@ -102,6 +102,7 @@ namespace ORL.DialogueBuilder
             {
                 nodes = new string[nodeList.Count][][],
                 edges = new int[nodeList.Count][],
+                characterName = entryNode.characterName,
             };
             var mapper = new Dictionary<string, int>();
             for (int i = 0; i < nodeList.Count; i++)

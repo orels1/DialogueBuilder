@@ -115,11 +115,22 @@ namespace ORL.DialogueBuilder.Nodes
             });
             customHeaderContainer.Add(nodeIdField);
             nodeIdField.tooltip = "This will be used to add Udon events on node enter";
-            // nodeIdField.RegisterCallback<MouseEnterEvent>(evt =>
-            // {
-            //     
-            // });
-            
+
+            if (data.nodeType == NodeType.Entry)
+            {
+                var characterField = new TextField
+                {
+                    label = "Character",
+                    value = data.characterName,
+                };
+                characterField.RegisterValueChangedCallback(evt =>
+                {
+                    data.characterName = evt.newValue;
+                });
+                customHeaderContainer.Add(characterField);
+                characterField.tooltip = "Will be shown above the dialogue line.\nLeave empty to hide";
+            }
+
             var divider = new VisualElement
             {
                 name = "divider"
