@@ -150,6 +150,7 @@ namespace ORL.DialogueBuilderRuntime
 
             currentNode = 0;
             currentLineIndex = 0;
+            exited = false;
             uiController._HandleGraphEntry(this, characterName);
             ShowCurrentNode();
             HandleNodeEvents();

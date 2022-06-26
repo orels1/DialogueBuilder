@@ -698,7 +698,7 @@ MonoBehaviour:
       Data: 37|System.RuntimeType, mscorlib
     - Name: 
       Entry: 1
-      Data: ORL.DialogueBuilderRuntime.DB_DialogueUIController, DialogueTreeRuntime
+      Data: ORL.DialogueBuilderRuntime.DB_DialogueUIController, DialogueBuilderRuntime
     - Name: 
       Entry: 8
       Data: 
