@@ -6,22 +6,37 @@ using VRC.Udon;
 
 namespace ORL.DialogueBuilderRuntime
 {
+    [UdonBehaviourSyncMode(BehaviourSyncMode.NoVariableSync)]
     public class DB_UISwitcher : UdonSharpBehaviour
     {
-        public GameObject desktopUI;
-        public GameObject vrUI;
+        public DB_DialogueUIController desktopUIController;
+        public DB_DialogueUIController vrUIController;
+        [HideInInspector]
+        public DialogueTreeHandler[] trees;
+
+        private DB_DialogueUIController chosenController;
 
         void Start()
         {
-            if (Networking.LocalPlayer.IsUserInVR())
+            if (!Networking.LocalPlayer.IsUserInVR())
             {
-                desktopUI.SetActive(false);
-                vrUI.SetActive(true);
+                desktopUIController.gameObject.SetActive(false);
+                vrUIController.gameObject.SetActive(true);
+                chosenController = vrUIController;
             }
             else
             {
-                desktopUI.SetActive(true);
-                vrUI.SetActive(false);
+                desktopUIController.gameObject.SetActive(true);
+                vrUIController.gameObject.SetActive(false);
+                chosenController = desktopUIController;
+            }
+
+            if (trees != null)
+            {
+                foreach (var tree in trees)
+                {
+                    tree.uiController = chosenController;
+                }
             }
 
             Destroy(this);

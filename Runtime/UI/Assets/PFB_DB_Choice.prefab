@@ -166,8 +166,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 78.33
-  m_fontSizeBase: 78.33
+  m_fontSize: 64
+  m_fontSizeBase: 64
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 22.4
@@ -242,8 +242,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 65.1, y: 0.3999939}
-  m_SizeDelta: {x: 616.899, y: 82.0253}
+  m_AnchoredPosition: {x: 53.61, y: 0.3999939}
+  m_SizeDelta: {x: 639.7813, y: 82.0253}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3191198260152082584
 CanvasRenderer:
@@ -300,12 +300,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 62.95
+  m_fontSize: 49.31
   m_fontSizeBase: 66.93
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 22.4
-  m_fontSizeMax: 66
+  m_fontSizeMax: 49.31
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
@@ -352,9 +352,10 @@ GameObject:
   m_Component:
   - component: {fileID: 3191198260374922971}
   - component: {fileID: 3191198260374922968}
+  - component: {fileID: 1959329716}
   m_Layer: 0
-  m_Name: Choice
-  m_TagString: EditorOnly
+  m_Name: PFB_DB_Choice
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -390,6 +391,25 @@ CanvasGroup:
   m_GameObject: {fileID: 3191198260374922970}
   m_Enabled: 1
   m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!95 &1959329716
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3191198260374922970}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 68a29eeba81e7f94aa63437482df9b10, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

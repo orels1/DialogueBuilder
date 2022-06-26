@@ -112,11 +112,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
-  m_Name: DMSans-Regular SDF
+  m_Name: FNT_DB_DMSans-Regular SDF
   m_EditorClassIdentifier: 
-  hashCode: -143717312
+  hashCode: -2031416198
   material: {fileID: -7357816341919261317}
-  materialHashCode: 1387871328
+  materialHashCode: -425724262
   m_Version: 1.1.0
   m_SourceFontFileGUID: 5fa8b90fab697df4fabae764a799330c
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: 5fa8b90fab697df4fabae764a799330c,

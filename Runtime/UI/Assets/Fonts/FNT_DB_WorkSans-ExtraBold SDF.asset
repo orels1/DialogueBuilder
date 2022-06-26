@@ -154,11 +154,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
-  m_Name: WorkSans-ExtraBold SDF
+  m_Name: FNT_DB_WorkSans-ExtraBold SDF
   m_EditorClassIdentifier: 
-  hashCode: 506618829
+  hashCode: -1871926409
   material: {fileID: -3744165687690674579}
-  materialHashCode: 1943755981
+  materialHashCode: -1621252233
   m_Version: 1.1.0
   m_SourceFontFileGUID: ce9adbe311856a545b4a5bf24776bacb
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: ce9adbe311856a545b4a5bf24776bacb,

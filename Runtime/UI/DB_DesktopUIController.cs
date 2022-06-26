@@ -9,15 +9,23 @@ using VRC.Udon.Common;
 
 namespace ORL.DialogueBuilderRuntime
 {
+    [UdonBehaviourSyncMode(BehaviourSyncMode.NoVariableSync)]
     public class DB_DesktopUIController : DB_DialogueUIController
     {
         public DialogueTreeHandler tree;
+        [Header("Animations")]
+        public Animator dialogueAnim;
+        public string shownBoolName = "Shown";
+        [Header("Text Components")]
         public TextMeshProUGUI charNameTMP;
-        public GameObject charNameContainer;
         public TextMeshProUGUI lineTMP;
+        [Header("Conditional Objects")]
+        public GameObject charNameContainer;
         public GameObject nextArrow;
+        [Header("Choices")]
         public GameObject choicesContainer;
         public GameObject choicePrefab;
+        public string selectedTriggerName = "Selected";
 
         private bool dialogueActive;
         private bool readyToProceed;
@@ -28,6 +36,9 @@ namespace ORL.DialogueBuilderRuntime
         private bool skippedLine;
         private bool choosing;
         private bool awaitingExit;
+        private int shownBoolNameHash;
+        private int selectedTriggerNameHash;
+        private bool animating;
 
         void Start()
         {
@@ -35,6 +46,8 @@ namespace ORL.DialogueBuilderRuntime
             lineTMP.text = "";
             nextArrow.SetActive(false);
             enabled = false;
+            shownBoolNameHash = Animator.StringToHash(shownBoolName);
+            selectedTriggerNameHash = Animator.StringToHash(selectedTriggerName);
         }
 
         public override void _HandleGraphEntry(DialogueTreeHandler tree, string characterName)
@@ -46,6 +59,7 @@ namespace ORL.DialogueBuilderRuntime
             this.tree = tree;
             charNameContainer.SetActive(true);
             charNameTMP.text = characterName;
+            dialogueAnim.SetBool(shownBoolNameHash, true);
         }
 
         public override void _HandleNodeEntry(string[] lines, string[] options, string id)
@@ -65,6 +79,11 @@ namespace ORL.DialogueBuilderRuntime
             currentLine = line;
             // mark if current line is a choice line
             choosing = tree.isChoosing;
+            if (animating)
+            {
+                SendCustomEventDelayedSeconds(nameof(_ScheduleLineTypeDelayed), 0.5f);
+                return;
+            }
             ScheduleLineType();
         }
 
@@ -72,7 +91,39 @@ namespace ORL.DialogueBuilderRuntime
         {
             Debug.Log($"got choice {choiceIndex}");
             choosing = false;
+            var choiceAnim = choicesContainer.transform.GetChild(choiceIndex).GetComponent<Animator>();
+            // we only delay cleanup if there is a choice animator to play stuff on
+            if (choiceAnim != null)
+            {
+                animating = true;
+                choiceAnim.SetTrigger(selectedTriggerNameHash);
+                SendCustomEventDelayedSeconds(nameof(_CleanupChoicesDelayed), 0.5f);
+                return;
+            }
             CleanupChoices();
+        }
+
+        public override void _HandleCustomPickerSelect(int choiceIndex)
+        {
+            tree._SelectOption(choiceIndex);
+        }
+
+        public override void _HandleCustomPickerHover(int choiceIndex)
+        {
+            // we do not provide any hover effects on desktop
+        }
+        
+        public override void _HandleCustomPickerHoverLeave(int choiceIndex)
+        {
+            // we do not provide any hover effects on desktop
+        }
+
+        public override void _HandleSkipLineToTheEnd()
+        {
+            if (dialogueActive && !lineDone)
+            {
+                SkipLineToTheEnd();
+            }
         }
 
         private void ScheduleLineType()
@@ -137,6 +188,7 @@ namespace ORL.DialogueBuilderRuntime
             charNameTMP.text = "";
             choicesContainer.SetActive(false);
             enabled = false;
+            dialogueAnim.SetBool(shownBoolNameHash, false);
         }
 
         public void _TypeLineSymbol()
@@ -156,6 +208,17 @@ namespace ORL.DialogueBuilderRuntime
             { 
                 nextArrow.SetActive(true);
             }
+        }
+
+        public void _CleanupChoicesDelayed()
+        {
+            animating = false;
+            CleanupChoices();
+        }
+        
+        public void _ScheduleLineTypeDelayed()
+        {
+            ScheduleLineType();
         }
 
         private void Update()

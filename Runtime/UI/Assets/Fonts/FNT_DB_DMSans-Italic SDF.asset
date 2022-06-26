@@ -112,11 +112,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
-  m_Name: DMSans-Italic SDF
+  m_Name: FNT_DB_DMSans-Italic SDF
   m_EditorClassIdentifier: 
-  hashCode: -1331416768
+  hashCode: 1306015482
   material: {fileID: -7463039912550652519}
-  materialHashCode: 1908916576
+  materialHashCode: -793325286
   m_Version: 1.1.0
   m_SourceFontFileGUID: a75549c704e682e45ab8160e7b9bd964
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: a75549c704e682e45ab8160e7b9bd964,

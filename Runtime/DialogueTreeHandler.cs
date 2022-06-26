@@ -57,8 +57,7 @@ namespace ORL.DialogueBuilderRuntime
 
         private void Start()
         {
-            Debug.Log($"db: Loaded a tree with nodes {nodes.Length} and edges {edges.Length}");
-            SendCustomEventDelayedSeconds(nameof(_EnterTree), 4);
+            if (debugMode) Debug.Log($"db: Loaded a tree with nodes {nodes.Length} and edges {edges.Length}");
             ShowCurrentNode();
         }
 
